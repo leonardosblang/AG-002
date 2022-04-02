@@ -38,6 +38,7 @@ tic_tact_data.to_csv('tic-tact-data2222.csv', index=False)
 train_data = tic_tact_data.sample(frac=0.8, random_state=200)
 test_data = tic_tact_data.drop(train_data.index)
 
+
 #treinando com nearest neighbor
 
 from sklearn.neighbors import KNeighborsClassifier
@@ -55,10 +56,16 @@ print(classification_report(test_data.iloc[:,9], tic_tact_predictions))
 
 #entrando com valores do usuario
 
+user_input = input("Digite 9 valores separados por espaço: ")
+#remove the , from the input
+user_input = user_input.replace(',', ' ')
+user_input = user_input.split()
+user_input = [float(i) for i in user_input]
 
-tic_tact_predictions = tic_tact_classifier.predict([[0,0,0,1,-1,0,1,-1,-1]])
 
+tic_tact_predictions = tic_tact_classifier.predict([user_input])
 print(tic_tact_predictions)
+
 
 
 
