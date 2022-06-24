@@ -40,7 +40,7 @@ print(confusion_matrix(test_data.iloc[:,9], tic_tact_predictions))
 print(classification_report(test_data.iloc[:,9], tic_tact_predictions))
 #entrando com valores do usuario
 user_input = input("Digite 9 valores separados por espaço: ")
-#remove the , from the input
+
 user_input = user_input.replace(',', ' ')
 user_input = user_input.split()
 user_input = [float(i) for i in user_input]
