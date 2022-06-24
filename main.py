@@ -1,18 +1,13 @@
 import pandas as pd
-import numpy as np
+
 import matplotlib.pyplot as plt
 import seaborn as sns
-import os
-import sys
-import time
-import datetime
-import random
+
 import warnings
-import pickle
-import json
-import re
-import sklearn
-from sklearn.metrics import confusion_matrix
+
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 warnings.filterwarnings('ignore')
 # lendo o dataset
 tic_tact_data = pd.read_csv('tic-tac-toe.csv')
@@ -26,23 +21,33 @@ print(tic_tact_data.head())
 # salvando o dataset modificado
 tic_tact_data.to_csv('tic-tact-data2222.csv', index=False)
 # separando dataset
-train_data = tic_tact_data.sample(frac=0.8, random_state=200)
-test_data = tic_tact_data.drop(train_data.index)
-#treinando com nearest neighbor
-from sklearn.neighbors import KNeighborsClassifier
-tic_tact_classifier = KNeighborsClassifier(n_neighbors=3)
-tic_tact_classifier.fit(train_data.iloc[:,0:9], train_data.iloc[:,9])
-#prevendo os valores
-tic_tact_predictions = tic_tact_classifier.predict(test_data.iloc[:,0:9])
-#classificando o modelo
-from sklearn.metrics import classification_report, confusion_matrix
-print(confusion_matrix(test_data.iloc[:,9], tic_tact_predictions))
-print(classification_report(test_data.iloc[:,9], tic_tact_predictions))
-#entrando com valores do usuario
+X = tic_tact_data.iloc[:, :-1].values
+y = tic_tact_data.iloc[:, -1].values
+# separando dataset em treino e teste
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+# criando o classificador
+classifier = KNeighborsClassifier(n_neighbors=5, metric='minkowski', p=2)
+# treinando o classificador
+classifier.fit(X_train, y_train)
+# previsao
+y_pred = classifier.predict(X_test)
+
+# calculando a acuracia
+accuracy = accuracy_score(y_test, y_pred)
+print(accuracy)
+# plotando o grafico
+sns.heatmap(tic_tact_data.corr(), annot=True)
+plt.show()
+
+
 user_input = input("Digite 9 valores separados por espaço: ")
 
 user_input = user_input.replace(',', ' ')
 user_input = user_input.split()
 user_input = [float(i) for i in user_input]
-tic_tact_predictions = tic_tact_classifier.predict([user_input])
+tic_tact_predictions = classifier.predict([user_input])
 print(tic_tact_predictions)
+#print X venceu if tic_tact_predictions == 1 else print O venceu if tic_tact_predictions == -1 else print empate
+if tic_tact_predictions == 1:
+    print("X venceu")
+else: print("X não venceu")
