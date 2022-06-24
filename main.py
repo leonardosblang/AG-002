@@ -47,7 +47,7 @@ user_input = user_input.split()
 user_input = [float(i) for i in user_input]
 tic_tact_predictions = classifier.predict([user_input])
 print(tic_tact_predictions)
-#print X venceu if tic_tact_predictions == 1 else print O venceu if tic_tact_predictions == -1 else print empate
+
 if tic_tact_predictions == 1:
     print("X venceu")
 else: print("X não venceu")
