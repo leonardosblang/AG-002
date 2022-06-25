@@ -5,6 +5,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
+import warnings
+warnings.filterwarnings("ignore")
 # lendo o dataset
 tic_tact_data = pd.read_csv('tic-tac-toe.csv')
 
